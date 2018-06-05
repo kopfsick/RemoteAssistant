@@ -1,13 +1,8 @@
-﻿using System.Threading.Tasks;
-
-namespace RemoteAssistant.API.Power
+﻿namespace RemoteAssistant.API.Power
 {
-    public class HibernatePowerCommand : IPowerCommand
+    public class HibernatePowerCommand : PowerCommandBase
     {
-        public string Command => "Hibernate";
-        public Task<string> ExecuteAsync()
-        {
-            return Task.FromResult("You chose HIIIIBERNATE!");
-        }
+        public override string Command => "Hibernate";
+        public override string Switch => "/h";
     }
 }

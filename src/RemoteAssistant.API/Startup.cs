@@ -28,7 +28,8 @@ namespace RemoteAssistant.API
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<IPowerCommand, HibernatePowerCommand>();
-            services.AddSingleton<IPowerCommand, SleepPowerCommand>();
+            services.AddSingleton<IPowerCommand, ShutDownPowerCommand>();
+            services.AddSingleton<IPowerCommand, AbortShutDownPowerCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

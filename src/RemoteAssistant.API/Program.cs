@@ -25,7 +25,7 @@ namespace RemoteAssistant.API
                 .AddCommandLine(args)
                 .Build();
 
-            var port = config.GetValue<string>("port","6000");
+            var port = config.GetValue<string>("port", "5432");
 
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using RemoteAssistant.API.Power;
 
 namespace RemoteAssistant.API
@@ -26,7 +27,13 @@ namespace RemoteAssistant.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.Formatting = Formatting.Indented;
+                });
+
             services.AddSingleton<IPowerCommand, HibernatePowerCommand>();
             services.AddSingleton<IPowerCommand, ShutDownPowerCommand>();
             services.AddSingleton<IPowerCommand, AbortShutDownPowerCommand>();
@@ -36,13 +43,9 @@ namespace RemoteAssistant.API
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
             else
-            {
                 app.UseHsts();
-            }
 
             //app.UseHttpsRedirection();
             app.UseMvc();

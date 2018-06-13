@@ -15,7 +15,7 @@ namespace RemoteAssistant.API.Controllers
         [HttpGet]
         public async Task<ActionResult<object[]>> GetRunningProcesses()
         {
-            var processes = GetAllProcesses();
+            var processes = Process.GetProcesses();
 
             return Ok(processes.Select(p => (p.ProcessName, p.ToString())));
         }
@@ -59,7 +59,5 @@ namespace RemoteAssistant.API.Controllers
 
             return Ok(startedNewProcess);
         }
-
-        private static Process[] GetAllProcesses() => Process.GetProcesses();
     }
 }

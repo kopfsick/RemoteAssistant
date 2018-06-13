@@ -27,7 +27,7 @@ namespace RemoteAssistant.API.Controllers
             return Ok(Process.GetProcessesByName(name).Any());
         }
 
-        [Route("kill"), HttpGet]
+        [Route("kill"), HttpPost]
         public async Task<ActionResult<bool>> KillProcess(string name)
         {
             var processes = Process.GetProcessesByName(name);

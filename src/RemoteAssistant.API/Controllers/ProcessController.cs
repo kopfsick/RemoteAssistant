@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace RemoteAssistant.API.Controllers
@@ -14,7 +9,7 @@ namespace RemoteAssistant.API.Controllers
     public class ProcessController : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<object[]>> GetRunningProcesses()
+        public ActionResult<object[]> GetRunningProcesses()
         {
             var processes = Process.GetProcesses();
 
@@ -22,14 +17,13 @@ namespace RemoteAssistant.API.Controllers
         }
 
         [Route("isrunning"),HttpGet]
-
-        public async Task<ActionResult<bool>> IsProcessRunning(string name)
+        public ActionResult<bool> IsProcessRunning(string name)
         {
             return Ok(Process.GetProcessesByName(name).Any());
         }
 
         [Route("kill"), HttpPost]
-        public async Task<ActionResult<bool>> KillProcess(string name)
+        public ActionResult<bool> KillProcess(string name)
         {
             var processes = Process.GetProcessesByName(name);
 

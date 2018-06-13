@@ -3,7 +3,7 @@
 	<Product Id="*" Name="RemoteAssistant" Language="1033" Version="1.0.0.0" Manufacturer="Kopfsick Media" UpgradeCode="f99b0fee-4a56-4759-96b4-a7d92a34062d">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MajorUpgrade AllowDowngrades="yes"/>
 		<MediaTemplate EmbedCab="yes" />
 
 		<Feature Id="ProductFeature" Title="RemoteAssistant application" Level="1">
@@ -13,7 +13,7 @@
 
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder">
+			<Directory Id="ProgramFiles64Folder">
 				<Directory Id="INSTALLFOLDER" Name="RemoteAssistant" />
 			</Directory>
 		</Directory>

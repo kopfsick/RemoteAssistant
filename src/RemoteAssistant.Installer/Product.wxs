@@ -1,20 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="RemoteAssistant" Language="1033" Version="1.0.0.0" Manufacturer="Kopfsick Media" UpgradeCode="f99b0fee-4a56-4759-96b4-a7d92a34062d">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+  
+  <?include $(sys.CURRENTDIR)\Variables.wxi?>
+
+	<Product Id="*" 
+	         Name="$(var.ProductNameWithPlatform)"
+	         Language="1033"
+	         Version="$(var.BuildVersion)"
+	         Manufacturer="$(var.Manufacturer)"
+	         UpgradeCode="$(var.UpgradeCode)">
+		
+	  <Package
+	    InstallerVersion="200"
+	    Compressed="yes"
+	    InstallScope="perMachine"
+	    Platform="$(var.Platform)"
+	    Manufacturer="$(var.Manufacturer)"
+	    />
 
 		<MajorUpgrade AllowDowngrades="yes"/>
 		<MediaTemplate EmbedCab="yes" />
 
-		<Feature Id="ProductFeature" Title="RemoteAssistant application" Level="1">
+		<Feature Id="ProductFeature" Title="$(var.ProductName)" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
 		</Feature>
 	</Product>
 
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFiles64Folder">
-				<Directory Id="INSTALLFOLDER" Name="RemoteAssistant" />
+			<Directory Id="$(var.PlatformProgramFilesFolder)">
+				<Directory Id="INSTALLFOLDER" Name="$(var.ProductFolderName)" />
 			</Directory>
 		</Directory>
 	</Fragment>

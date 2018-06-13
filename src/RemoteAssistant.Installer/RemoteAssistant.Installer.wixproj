@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>974f8b59-d5fa-47d4-b10d-e2bfba03bb14</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>RemoteAssistant Setup</OutputName>
+    <OutputName>RemoteAssistant-$(Configuration)-$(Platform)</OutputName>
     <OutputType>Package</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -18,7 +18,7 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
@@ -41,6 +41,9 @@
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Variables.wxi" />
+  </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
   <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
@@ -52,11 +55,29 @@
   <Target Name="BeforeBuild">
     <Exec Command="rd /s /q ..\RemoteAssistant.API\bin\$(Configuration)\netcoreapp2.1\win-$(Platform)\publish" />
     <Exec Command="dotnet publish ..\RemoteAssistant.API\RemoteAssistant.API.csproj -c $(Configuration) -r win-$(Platform)" />
+	
+	<GetAssemblyIdentity AssemblyFiles="..\RemoteAssistant.API\bin\$(Configuration)\netcoreapp2.1\win-$(Platform)\RemoteAssistant.API.dll">
+		<Output TaskParameter="Assemblies" ItemName="AssemblyVersion" />
+	</GetAssemblyIdentity>
+
     <PropertyGroup>
       <LinkerBaseInputPaths>..\RemoteAssistant.API\bin\$(Configuration)\netcoreapp2.1\win-$(Platform)\publish</LinkerBaseInputPaths>
-      <DefineConstants>BasePath=..\RemoteAssistant.API\bin\$(Configuration)\netcoreapp2.1\win-$(Platform)\publish</DefineConstants>
+      <DefineConstants>BasePath=..\RemoteAssistant.API\bin\$(Configuration)\netcoreapp2.1\win-$(Platform)\publish;BuildVersion=%(AssemblyVersion.Version)</DefineConstants>
     </PropertyGroup>
-    <HeatDirectory OutputFile="RemoteAssistant.API.wxs" DirectoryRefId="INSTALLFOLDER" ComponentGroupName="CG_RemoteAssistant.API" SuppressCom="true" Directory="..\RemoteAssistant.API\bin\$(Configuration)\netcoreapp2.1\win-$(Platform)\publish" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" AutoGenerateGuids="false" GenerateGuidsNow="true" ToolPath="$(WixToolPath)" PreprocessorVariable="var.BasePath" />
+	
+    <HeatDirectory
+	OutputFile="RemoteAssistant.API.wxs"
+	DirectoryRefId="INSTALLFOLDER"
+	ComponentGroupName="CG_RemoteAssistant.API"
+	SuppressCom="true"
+	Directory="..\RemoteAssistant.API\bin\$(Configuration)\netcoreapp2.1\win-$(Platform)\publish"
+	SuppressFragments="true"
+	SuppressRegistry="true"
+	SuppressRootDirectory="true"
+	AutoGenerateGuids="false"
+	GenerateGuidsNow="true"
+	ToolPath="$(WixToolPath)"
+	PreprocessorVariable="var.BasePath" />
   </Target>
   <Target Name="AfterBuild">
   </Target>

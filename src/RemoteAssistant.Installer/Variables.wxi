@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  
+  <?define Manufacturer = Kopfsick Media?>
+  <?define ProductName = "RemoteAssistant"?>
+  <?define ProductNameWithPlatform = $(var.ProductName) ($(var.Platform))?>
+  <?define ProductFolderName = $(var.ProductName)?>
+  <?define UpgradeCode = f99b0fee-4a56-4759-96b4-a7d92a34062d?>
+
+  <?if $(var.Platform) = x64 ?>
+    <?define Win64 = "yes" ?>
+    <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+  <?else ?>
+    <?define Win64 = "no" ?>
+    <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+  <?endif ?>
+</Include>

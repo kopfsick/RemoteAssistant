@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -38,22 +39,18 @@ namespace RemoteAssistant.API.Controllers
             return Ok(processes.Any());
         }
 
-        [Route("start"), HttpGet]
-        public async Task<ActionResult<bool>> StartProcess(string name, bool allowMultiple = false)
+        [Route("start"), HttpPost]
+        public ActionResult<bool> StartProcess(string path)
         {
-            //TODO rename 'name' to 'path'?
-
-            //TODO Need to check if file path exists
             //TODO What to return when file path doesn't exist?
+            //TODO Support preventing starting multiple instances
 
-            //TODO Can't check if process is running by using 'IsProcessRunning', it checks by name.
-            //TODO Need to check by full path? 'name'/'filepath' could be relative ("calc.exe"/"calc")
-
+            var fileExists = System.IO.File.Exists(path);
             var startedNewProcess = false;
 
-            if (allowMultiple || !(await IsProcessRunning(name)).Value)
+            if (fileExists)
             {
-                Process.Start(name);
+                Process.Start(path);
                 startedNewProcess = true;
             }
 

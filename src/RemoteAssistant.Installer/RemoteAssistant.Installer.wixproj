@@ -55,6 +55,7 @@
   <Target Name="BeforeBuild">
     <Exec Command="rd /s /q ..\RemoteAssistant.API\bin\$(Configuration)\netcoreapp2.1\win-$(Platform)\publish" />
     <Exec Command="dotnet publish ..\RemoteAssistant.API\RemoteAssistant.API.csproj -c $(Configuration) -r win-$(Platform)" />
+	<Delete Files="..\RemoteAssistant.API\bin\$(Configuration)\netcoreapp2.1\win-$(Platform)\publish\RemoteAssistant.API.exe"/>
 	
 	<GetAssemblyIdentity AssemblyFiles="..\RemoteAssistant.API\bin\$(Configuration)\netcoreapp2.1\win-$(Platform)\RemoteAssistant.API.dll">
 		<Output TaskParameter="Assemblies" ItemName="AssemblyVersion" />

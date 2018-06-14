@@ -37,6 +37,21 @@
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <ComponentGroupRef Id="CG_RemoteAssistant.API"/>
+      <Component Id="C_MainExe" Guid="*">
+        <File Id="F_MainExe" Name="RemoteAssistant.API.exe" KeyPath="yes" Source="..\RemoteAssistant.API\bin\$(var.Configuration)\netcoreapp2.1\win-$(var.Platform)\RemoteAssistant.API.exe"/>
+        <ServiceInstall
+          Id="S_MainService"
+          Type="ownProcess"
+          Vital="yes"
+          Name="RemoteAssistant"
+          DisplayName="RemoteAssistant Hosting Service"
+          Description="Service for hosting the RemoteAssistant WebAPI"
+          Start="auto"
+          Account="LocalSystem"
+          ErrorControl="ignore"
+          Interactive="no"/>
+        <ServiceControl Id="SC_StartService" Start="install" Stop="both" Remove="uninstall" Name="RemoteAssistant" Wait="yes"/>
+      </Component>
 		</ComponentGroup>
 	</Fragment>
 </Wix>

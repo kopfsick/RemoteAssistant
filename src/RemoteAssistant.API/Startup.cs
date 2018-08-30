@@ -35,6 +35,7 @@ namespace RemoteAssistant.API
                 });
 
             services.AddSingleton<IPowerCommand, HibernatePowerCommand>();
+            services.AddSingleton<IPowerCommand, SleepPowerCommand>();
             services.AddSingleton<IPowerCommand, ShutDownPowerCommand>();
             services.AddSingleton<IPowerCommand, AbortShutDownPowerCommand>();
         }
